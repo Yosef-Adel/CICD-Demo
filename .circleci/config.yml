@@ -2,7 +2,7 @@ version: 2.1
 
 jobs:
 
-    provsion-infrastructure:
+  provsion-infrastructure:
     docker:
       - image: amazon/aws-cli
 
