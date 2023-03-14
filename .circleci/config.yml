@@ -6,7 +6,7 @@ commands:
         steps:
           - run:
               name: Destroy environment
-            
+              when: on_fail
               command: |
                 aws cloudformation delete-stack --stack-name web
           
@@ -81,7 +81,7 @@ jobs:
           name: Simulate Fail
           command:  return 1
       - destroy_environment
-        when: on_fail
+
         
               
 workflows:
