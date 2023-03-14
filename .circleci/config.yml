@@ -15,6 +15,7 @@ jobs:
           name: Create INV File
           command: |
             yum install -y tar gzip
+            echo "[web]" >> inventory.txt
             aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory.txt
       - persist_to_workspace:
           # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is
@@ -47,8 +48,19 @@ jobs:
             name: Configure Infrastructure
             command: |
               ansible-playbook -i inventory.txt main.yml
+  testing:
+    docker:
+      - image: node:alpine
 
-              
+    steps:
+      - checkout
+      - run:
+          name: Test unit test
+          command: |
+            cd backend
+            npm i
+            npm run test
+            
 workflows:
   welcome:
     jobs:
@@ -57,10 +69,7 @@ workflows:
           requires:
             - provsion-infrastructure
 
-
-
-
-      # - testing
+      - testing
          
 
 
