@@ -6,7 +6,7 @@ commands:
         steps:
           - run:
               name: Destroy environment
-              when: on_fail
+            
               command: |
                 aws cloudformation delete-stack --stack-name web
           
