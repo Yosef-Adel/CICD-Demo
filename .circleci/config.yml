@@ -1,7 +1,6 @@
 version: 2.1
 
 jobs:
-
   provsion-infrastructure:
     docker:
       - image: amazon/aws-cli
@@ -25,17 +24,36 @@ jobs:
           paths:
             - inventory.txt
 
+  server-configuration:
+      docker:
+        - image: python:3.7-alpine3.11
 
+      steps:
+        - checkout
+        - add_ssh_keys:
+            fingerprints: ["ee:ec:8e:5b:55:66:0f:5c:7b:fb:3e:82:ba:87:8f:1c"]
+        - run:
+            name: Install dependencies
+            command: |
+              apk add gzip openssh-client ansible
+        - attach_workspace:
+            # Must be absolute path or relative path from working_directory
+            at: .
+        - run:
+            name: Reading Inventory file
+            command: |
+              cat inventory.txt
+        - run:
+            name: Configure Infrastructure
+            command: |
+              ansible-playbook -i inventory.txt main.yml
 
-
-
-
-
+              
 workflows:
   welcome:
     jobs:
       - provsion-infrastructure
-      # - server-configuration
+      - server-configuration
       # - testing
           # requires: 
           #   - provsion-infrastructure
@@ -43,5 +61,4 @@ workflows:
 
 
 
-# ee:ec:8e:5b:55:66:0f:5c:7b:fb:3e:82:ba:87:8f:1c
 
