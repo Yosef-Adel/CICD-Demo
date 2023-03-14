@@ -73,7 +73,7 @@ jobs:
             npm run test
 
 
-  smoke_test:
+  fail-simulation:
     docker:
       - image: amazon/aws-cli
     steps:
@@ -93,7 +93,7 @@ workflows:
       #       - provsion-infrastructure
 
       # - testing
-      - smoke_test
+      - fail-simulation
          
 
 
