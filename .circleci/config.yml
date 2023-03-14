@@ -93,6 +93,7 @@ workflows:
             - provsion-infrastructure
 
       - testing
+      - smoke_test
          
 
 
