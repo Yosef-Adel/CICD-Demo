@@ -53,10 +53,12 @@ workflows:
   welcome:
     jobs:
       - provsion-infrastructure
-      - server-configuration
+      - server-configuration:
+       requires: 
+        - provsion-infrastructure
+        
       # - testing
-          # requires: 
-          #   - provsion-infrastructure
+         
 
 
 
