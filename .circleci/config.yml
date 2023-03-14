@@ -1,5 +1,16 @@
 version: 2.1
 
+
+commands:
+      destroy_environment:
+        steps:
+          - run:
+              name: Destroy environment
+              when: on_fail
+              command: |
+                aws cloudformation delete-stack --stack-name web
+          
+
 jobs:
   provsion-infrastructure:
     docker:
@@ -60,7 +71,19 @@ jobs:
             cd backend
             npm i
             npm run test
-            
+
+
+  smoke_test:
+    docker:
+      - image: alpine:latest
+    steps:
+      - run:
+          name: Simulate Fail
+          command:  return 1
+      - destroy_environment
+        when: on_fail
+        
+              
 workflows:
   welcome:
     jobs:
