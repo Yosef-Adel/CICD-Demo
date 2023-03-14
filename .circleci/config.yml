@@ -93,7 +93,7 @@ workflows:
       #       - provsion-infrastructure
 
       # - testing
-      - fail-simulation
+      # - fail-simulation
          
 
 
